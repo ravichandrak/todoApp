@@ -1,0 +1,45 @@
+/* body, html
+{
+	background-color : #BDBDBD;
+} */
+
+.todoContainer
+{
+	/*
+	background-color : #FFFFFF;
+	padding-bottom : 15px;
+	border-radius : 5px;
+	*/
+	margin-top : 80px;
+}
+
+.icon-big
+{
+	font-size : 1em;
+}
+
+.icons > a
+{
+	padding : 5px;
+}
+
+.editContent
+{
+	display : none;
+}
+
+.editContent > button:first-child
+{
+	margin-right : 5px;
+}
+
+/* login page styles */
+.loginContainer
+{
+	margin-top : 80px;
+}
+
+.errorText
+{
+	color : red;
+}
