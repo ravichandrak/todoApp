@@ -52,6 +52,7 @@
 $(document).ready(function() {
 	
 	var isEditing = false;
+	var valuetoEdit = '';
 	
 	$('.todoForm').submit(function(e) {
 		e.preventDefault();
@@ -178,7 +179,6 @@ $(document).ready(function() {
 		var nodeText = $(todoNameNode).text();
 		var clsName = $(todoNameNode).attr('class');
 		
-		
 		var pNodeId = $(pNode).attr('id');
 		
 		var mtchCls = '.todoItems > li > span.' + clsName;
@@ -196,6 +196,7 @@ $(document).ready(function() {
 		
 		$(btnsToHide).hide();
 		
+		valuetoEdit = nodeText;
 		
 		$(edtngCls).focus().val(nodeText);
 	
@@ -237,6 +238,10 @@ $(document).ready(function() {
 					var replStr = $('<span>').attr({ class: clsToAdd }).text(itemVal);
 					
 					$(edtngCls).replaceWith(replStr);
+					
+					$('div#icon-' + itemId).show();
+					$('div#edit-' + itemId).hide();
+					
 				}
 			},
 			error : function (error, errorThrown, xhr) {
@@ -301,6 +306,51 @@ $(document).ready(function() {
 		handleMarkAsCompleted(idToUpdate);
 		
 		$(mtchCls).empty().html('<s>' + nodeText + '</s>');
+	}
+	
+	/* function to save item state on click of save button*/
+	
+	$.fn.handleSave = function (e, currObj)
+	{
+		e.preventDefault();
+		var pNode = $(currObj).parent().parent();
+		var	todoNameNode = $(pNode).find('input[type="text"]');
+		
+		var inputClassArr = $(todoNameNode).attr('class').split(' ');
+		
+		var idToUpdate = inputClassArr[1].split('-')[1];
+		var itemToUpdate = $(todoNameNode).val().trim();
+		
+		updateToDoItem(idToUpdate, itemToUpdate, todoNameNode);
+		
+		
+	}
+	
+	/* function to cancel item state on click of Cancel button*/
+	
+	$.fn.handleCancel = function (e, currObj)
+	{
+		e.preventDefault();
+		
+		var pNode = $(currObj).parent().parent();
+		var	todoNameNode = $(pNode).find('input[type="text"]');
+		
+		var inputClassArr = $(todoNameNode).attr('class').split(' ');
+		
+		var idToUpdate = inputClassArr[1].split('-')[1];
+		
+		
+		var currClassArr = $(todoNameNode).attr('class').split(' ');
+					
+		var clsToAdd = currClassArr[1];
+		var edtngCls = '.todoItems > li > input.' + clsToAdd;
+					
+		var replStr = $('<span>').attr({ class: clsToAdd }).text(valuetoEdit);
+					
+		$(edtngCls).replaceWith(replStr);
+		
+		$('div#icon-' + idToUpdate).show();
+		$('div#edit-' + idToUpdate).hide();
 		
 	}
 	

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Home</title>
+  <link rel="stylesheet" href="Styles/bootstrap.min.css"></link>
+  <script type="text/javascript" src="Scripts/jquery.min.js"></script>
+  <script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div role="navigation" class="navbar navbar-inverse navbar-fixed-top">
+		  <div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="index.html">Todo App</a>
+			</div>
+		  </div>
+		</div> <!-- End of header -->
+		
+		<div class="container-fluid loginContainer">
+			<div class="row">
+				<div class="col-xs-12 col-sm-6 col-sm-offset-3">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h4 class="panel-title text-center"><b>Login</b></h4>
+						</div>
+						<div class="panel-body">
+							<form class="form loginForm" method="post" action="#">
+								<div class="form-group">
+									<label for='email'>Email</label>
+									<div class="input-group">
+										<span class="input-group-addon">
+											<i class="glyphicon glyphicon-user">
+											</i>
+										</span>
+										<input type="email" class="form-control emailInput" id="email" placeholder="Email" required/>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label for='password'>Password</label>
+									<div class="input-group">
+										<span class="input-group-addon">
+											<i class="glyphicon glyphicon-lock">
+											</i>
+										</span>
+										<input type="password" class="form-control passwordInput" id="password" placeholder="Password" required>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<p class="errorText"></p>
+								</div>
+								
+								<div class="form-group">
+									<input type="submit" class="btn btn-primary" value="submit">
+								</div>
+							</form>
+							
+							<div class="clearfix pull-right">
+								<a href="#">Signup</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> <!-- End of container -->
+</body>
+
+<link rel="stylesheet" href="styles/main.css" type="text/css"></link>
+<script type="text/javascript">
+
+$(document).ready(function() {
+	$('.loginForm').submit(function(e) {
+		e.preventDefault();
+		
+		var emailId = $('.emailInput').val();
+		var password = $('.passwordInput').val();
+		
+		validateUserInput(emailId, password);
+		
+	});
+	
+	function validateUserInput(emailId, password)
+	{
+		$.ajax({
+			method : "POST",
+			url : "login.php",
+			data : { 'email' : emailId, 'password' : password },
+			dataType : 'json',
+			success : function(response) {
+				console.log(response);
+				
+				var errorNo = response.errorNo;
+				var errDesc = response.description;
+				
+				if (errorNo == 0)
+				{
+					// login successful
+					$('p.errorText').empty();
+					window.location.href = 'todo.html';
+				}
+				else
+				{
+					// login failed
+					$('p.errorText').text('Email id or password is incorrect');
+					$('.passwordInput').val('');
+				}
+			},
+			error : function (error, errorThrown, xhr) {
+				console.log(errorThrown);
+			}
+		});
+	}
+});
+
+</script>
+</html>
