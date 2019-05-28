@@ -1,2 +1,2 @@
 # todoApp
-## Basic todo application using bootstrap and jQuery
+## A simple todo list app built in HTML, CSS and jQuery
